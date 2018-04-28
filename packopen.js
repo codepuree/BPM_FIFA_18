@@ -51,12 +51,12 @@ function packopen() {
                                         .then(_=>{
                                             setTimeout(_=>{
                                                 simulateklick(document.querySelectorAll("a.btn-flat")[1])
-                                            }, 500)
+                                            }, 500+ Math.random()*222)
                                         })
                                 }
                             }
                         })
-                    }, index * 1500)
+                    }, index * 1800)
                     
                 })
     }, 25000 + Math.random() * 750)
@@ -76,7 +76,12 @@ function openpacks(runs)
 {
  for (let i=0; i<runs; i++)
  {
-     setTimeout(packopen,i*45000)
+     (function(i) {
+         setTimeout(_=>{
+             packopen()
+             console.log(`Opening pack number ${i}...`)
+         },i*45000)
+     })(i);
  }
 }
 
