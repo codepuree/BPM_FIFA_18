@@ -1,3 +1,6 @@
+/**
+ * The function packopen, buys, opens and manages a pack.
+ */
 function packopen() {  
     const btnStore = document.querySelector("button.btnFooter.btnStore")
     //opens store
@@ -60,20 +63,14 @@ function packopen() {
                     
                 })
     }, 25000 + Math.random() * 750)
-
-    // setTimeout(function() {
-    //     let btnSendToTransfer = document.querySelector("button.standard.section-header-btn.mini.call-to-action");
-    //     if (btnSendToTransfer) {
-    //         simulateklick(btnSendToTransfer)
-    //         setTimeout(function() {
-    //             simulateklick(document.querySelectorAll("a.btn-flat")[1])
-    //         }, 1400)
-    //     }
-    // }, 11000)
-
 }
-function openpacks(runs)
-{
+
+/**
+ * The function openpacks, opens the given number of packs.
+ * 
+ * @param {Number} runs - Specifies the number of packs to open
+ */
+function openpacks(runs) {
  for (let i=0; i<runs; i++)
  {
      (function(i) {
@@ -85,7 +82,12 @@ function openpacks(runs)
  }
 }
 
-
+/**
+ * The function simulateklick, simulates a mouse click on a given element.
+ * 
+ * @param {HTMLElement} element - HTML element that should be clicked
+ * @returns {Promise<|Error>} - Resolves if all steps worked
+ */
 function simulateklick(element) {
     return new Promise((resolve, reject) => {
         try {
@@ -100,6 +102,12 @@ function simulateklick(element) {
     })
 }
 
+/**
+ * The function delay, is the promise version of setTimeout.
+ * 
+ * @param {Number} t - Time out in milliseconds
+ * @returns {Promise<arguments|Error} - Promise with given arguments
+ */
 function delay(t) {
     return function (v) {
         return new Promise(function (resolve) {
@@ -108,12 +116,26 @@ function delay(t) {
     }
 }
 
+/**
+ * The function getButtonInDetails, returns a visible button with the given text
+ * content in the details panel.
+ * 
+ * @param {String} textContent - Text content in button
+ * @returns {HTMLButtonElement} - HTML button with containing text
+ */
 function getButtonInDetailsPanel(textContent) {
     return Array.from(document.querySelectorAll('.DetailPanel>ul>button'))
         .filter(element => !element.style.display.includes('none'))
         .find(element => element.querySelector('.btn-text').innerHTML.toLowerCase().includes(textContent));
 }
 
+/**
+ * The function simulate, simulates an event on a given element
+ * 
+ * @param {HTMLElement} element - HTML element, where the event should get 
+ *                                applied
+ * @param {String} eventName - Name of the event to execute
+ */
 function simulate(element, eventName) {
     var options = extend(defaultOptions, arguments[2] || {});
     var oEvent, eventType = null;
@@ -147,6 +169,14 @@ function simulate(element, eventName) {
     return element;
 }
 
+/**
+ * The function extend, extends the given destination object with the data of 
+ * the other given source object.
+ * 
+ * @param {Object} destination 
+ * @param {Object} source 
+ * @returns {Object}
+ */
 function extend(destination, source) {
     for (var property in source)
         destination[property] = source[property];
@@ -157,6 +187,7 @@ var eventMatchers = {
     'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
     'MouseEvents': /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/
 }
+
 var defaultOptions = {
     pointerX: 0,
     pointerY: 0,
