@@ -31,26 +31,26 @@ async function packopen() {
     let fuItems = Array.from(document.querySelectorAll('section.list-view.sectioned-item-list>ul>li.listFUTItem'))
     for (let fuItem of fuItems) {
         await delay(600 + Math.random() * 750)
-        await simulateklick(element)
-        
+        await simulateklick(fuItem)
+
         let btnRedeem = getButtonInDetailsPanel('redeem');
         let btnPlayerBio = getButtonInDetailsPanel('player bio');
-        
+
         if (btnRedeem != undefined && btnRedeem != null) {
             await delay(600 + Math.random() * 750)
             await simulateklick(btnRedeem)
         } else if (btnPlayerBio != undefined && btnPlayerBio != null) {
             let btnSendToTranferList = getButtonInDetailsPanel('send to transfer list');
-            
+
             if (btnSendToTranferList) {
                 await delay(600 + Math.random() * 750)
                 await simulateklick(btnSendToTranferList)
             } else {
-                console.error('Unable to send to transfer list', element);
+                console.error('Unable to send to transfer list', fuItem);
             }
         } else {
             let btnQuickSell = getButtonInDetailsPanel('quick sell');
-            
+
             if (btnQuickSell) {
                 await delay(600 + Math.random() * 750)
                 await simulateklick(btnQuickSell)
@@ -66,14 +66,10 @@ async function packopen() {
  * 
  * @param {Number} runs - Specifies the number of packs to open
  */
-function openpacks(runs) {
+async function openpacks(runs) {
     for (let i = 0; i < runs; i++) {
-        (function (i) {
-            setTimeout(_ => {
-                packopen()
-                console.log(`Opening pack number ${i}...`)
-            }, i * 45000)
-        })(i);
+        console.log(`Opening pack number ${i + 1}...`)
+        await packopen()
     }
 }
 
@@ -101,14 +97,13 @@ function simulateklick(element) {
  * The function delay, is the promise version of setTimeout.
  * 
  * @param {Number} t - Time out in milliseconds
+ * @param {Number} v - delayed function
  * @returns {Promise<arguments|Error} - Promise with given arguments
  */
-function delay(t) {
-    return function (v) {
-        return new Promise(function (resolve) {
-            setTimeout(resolve.bind(null, v), t)
-        });
-    }
+function delay(t, v) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve.bind(null, v), t)
+    });
 }
 
 /**
