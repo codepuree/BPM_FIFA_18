@@ -1,68 +1,64 @@
 /**
  * The function packopen, buys, opens and manages a pack.
  */
-function packopen() {  
+async function packopen() {
     const btnStore = document.querySelector("button.btnFooter.btnStore")
+
     //opens store
-    simulateklick(btnStore)
+    await simulateklick(btnStore)
 
     // choose bronzepacks
-    setTimeout(function () {
-        simulateklick(document.querySelector("a.TabMenuItem:nth-child(4)"))
-    }, 3000 + Math.random() * 750)
+    await delay(600 + Math.random() * 750)
+    await simulateklick(document.querySelector("a.TabMenuItem:nth-child(4)"))
 
     // buys pack
-    setTimeout(function () {
-        simulateklick(document.querySelector('.StorePack button.currency.cCoins'))
-    }, 5000 + Math.random() * 750)
+    await delay(600 + Math.random() * 750)
+    await simulateklick(document.querySelector('.StorePack button.currency.cCoins'))
 
     // confirms buy
-    setTimeout(function () {
-        simulateklick(document.querySelectorAll("a.btn-flat")[1])
-    }, 7000 + Math.random() * 750)
+    await delay(600 + Math.random() * 750)
+    await simulateklick(document.querySelectorAll("a.btn-flat")[1])
+
+    // wait for pack open animation to finish
+    await delay(10000)
 
     // sent to my club
-    setTimeout(function () {
-        simulateklick(document.querySelector("button.standard.section-header-btn.mini.call-to-action"))
-    }, 17000 + Math.random() * 750)
+    await delay(600 + Math.random() * 750)
+    await simulateklick(document.querySelector("button.standard.section-header-btn.mini.call-to-action"))
 
-    // 
-    setTimeout(function () {
-        Array.from(document.querySelectorAll('section.list-view.sectioned-item-list>ul>li.listFUTItem'))
-            .forEach((element, index) => {
-                setTimeout(_=> {
-                    simulateklick(element)
-                        .then(_=>{
-                            let btnRedeem = getButtonInDetailsPanel('redeem');
-                            let btnPlayerBio = getButtonInDetailsPanel('player bio');
-                            
-                            if (btnRedeem != undefined && btnRedeem != null) {
-                                simulateklick(btnRedeem)
-                            } else if (btnPlayerBio != undefined && btnPlayerBio != null) {
-                                let btnSendToTranferList = getButtonInDetailsPanel('send to transfer list');
-                                
-                                if (btnSendToTranferList) {
-                                    simulateklick(btnSendToTranferList)
-                                } else {
-                                    console.error('Unable to send to transfer list', element);
-                                }
-                            } else {
-                                let btnQuickSell = getButtonInDetailsPanel('quick sell');
-
-                                if (btnQuickSell) {
-                                    simulateklick(btnQuickSell)
-                                        .then(_=>{
-                                            setTimeout(_=>{
-                                                simulateklick(document.querySelectorAll("a.btn-flat")[1])
-                                            }, 500+ Math.random()*222)
-                                        })
-                                }
-                            }
-                        })
-                    }, index * 1800)
-                    
-                })
-    }, 25000 + Math.random() * 750)
+    // clear up pack items list
+    await delay(600 + Math.random() * 750)
+    let fuItems = Array.from(document.querySelectorAll('section.list-view.sectioned-item-list>ul>li.listFUTItem'))
+    for (let fuItem of fuItems) {
+        await delay(600 + Math.random() * 750)
+        await simulateklick(element)
+        
+        let btnRedeem = getButtonInDetailsPanel('redeem');
+        let btnPlayerBio = getButtonInDetailsPanel('player bio');
+        
+        if (btnRedeem != undefined && btnRedeem != null) {
+            await delay(600 + Math.random() * 750)
+            await simulateklick(btnRedeem)
+        } else if (btnPlayerBio != undefined && btnPlayerBio != null) {
+            let btnSendToTranferList = getButtonInDetailsPanel('send to transfer list');
+            
+            if (btnSendToTranferList) {
+                await delay(600 + Math.random() * 750)
+                await simulateklick(btnSendToTranferList)
+            } else {
+                console.error('Unable to send to transfer list', element);
+            }
+        } else {
+            let btnQuickSell = getButtonInDetailsPanel('quick sell');
+            
+            if (btnQuickSell) {
+                await delay(600 + Math.random() * 750)
+                await simulateklick(btnQuickSell)
+                await delay(600 + Math.random() * 750)
+                await simulateklick(document.querySelectorAll("a.btn-flat")[1])
+            }
+        }
+    }
 }
 
 /**
@@ -71,15 +67,14 @@ function packopen() {
  * @param {Number} runs - Specifies the number of packs to open
  */
 function openpacks(runs) {
- for (let i=0; i<runs; i++)
- {
-     (function(i) {
-         setTimeout(_=>{
-             packopen()
-             console.log(`Opening pack number ${i}...`)
-         },i*45000)
-     })(i);
- }
+    for (let i = 0; i < runs; i++) {
+        (function (i) {
+            setTimeout(_ => {
+                packopen()
+                console.log(`Opening pack number ${i}...`)
+            }, i * 45000)
+        })(i);
+    }
 }
 
 /**
